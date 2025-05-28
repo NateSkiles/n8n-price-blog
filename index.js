@@ -1,7 +1,8 @@
+require("dotenv").config();
 const fs = require("fs").promises;
 const path = require("path");
 
-const WEBHOOK_URL = "http://localhost:5678/webhook-test/upload";
+const WEBHOOK_URL = process.env.WEBHOOK_URL;
 const IMAGES_DIR = path.join(__dirname, "images");
 
 const IMAGE_EXTENSIONS = [
@@ -12,13 +13,12 @@ const IMAGE_EXTENSIONS = [
   ".bmp",
   ".webp",
   ".svg",
-];gaa
+];
 
 async function processImages() {
   try {
     console.log(`Looking for images in ${IMAGES_DIR}`);
 
-    // Check if directory exists
     try {
       await fs.access(IMAGES_DIR);
     } catch (error) {
@@ -30,7 +30,6 @@ async function processImages() {
 
     const files = await fs.readdir(IMAGES_DIR);
 
-    // Filter out non-image files
     const imageFiles = files.filter((file) =>
       IMAGE_EXTENSIONS.includes(path.extname(file).toLowerCase())
     );
@@ -51,7 +50,6 @@ async function processImages() {
 
 async function postImageToWebhook(imagePath) {
   try {
-    // Read the image file
     const imageBuffer = await fs.readFile(imagePath);
     const filename = path.basename(imagePath);
 
@@ -63,7 +61,6 @@ async function postImageToWebhook(imagePath) {
       imageData: imageBuffer.toString("base64"),
     };
 
-    // Send request
     const response = await fetch(WEBHOOK_URL, {
       method: "POST",
       headers: {
