@@ -16,7 +16,7 @@ This project processes image files from a local directory and posts them to a we
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/NateSkiles/n8n-price-blog
    cd n8n-price-blog
    ```
 2. Install dependencies:
